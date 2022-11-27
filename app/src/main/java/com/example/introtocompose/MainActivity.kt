@@ -77,7 +77,7 @@ fun CreateCircle(moneyCounter: Int = 0, updateMoneyCounter: (Int) -> Unit) {
         elevation = 4.dp
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(text = "Tap $moneyCounter", modifier = Modifier)
+            Text(text = "Tap", modifier = Modifier)
         }
     }
 }
