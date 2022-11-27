@@ -71,7 +71,7 @@ fun CreateCircle(moneyCounter: Int = 0, updateMoneyCounter: (Int) -> Unit) {
             .padding(3.dp)
             .size(105.dp)
             .clickable {
-//                moneyCounter += 1
+                updateMoneyCounter(moneyCounter)
             },
         shape = CircleShape,
         elevation = 4.dp
