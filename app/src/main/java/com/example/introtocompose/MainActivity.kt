@@ -1,15 +1,12 @@
 package com.example.introtocompose
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -37,47 +34,76 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    val moneyCounter = remember {
+    var moneyCounter by remember {
+        mutableStateOf(0)
+    }
+
+    var moneyCounter2 by remember {
         mutableStateOf(0)
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF546E7A)
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF546E7A)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "$${moneyCounter.value}", style = TextStyle(
-                    color = Color.White,
-                    fontSize = 35.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
-            Spacer(modifier = Modifier.height(130.dp))
-            CreateCircle(moneyCounter = moneyCounter.value) { newValue ->
-                moneyCounter.value = newValue
+            Row() {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ShowMoney(money = moneyCounter)
+                    Spacer(modifier = Modifier.height(60.dp))
+                    CreateCircle(
+                        name = "Button 1",
+                        onClick = {
+                            moneyCounter += 1
+                        }
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(40.dp))
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ShowMoney(money = moneyCounter2)
+                    Spacer(modifier = Modifier.height(60.dp))
+                    CreateCircle(
+                        name = "Button 2",
+                        onClick = {
+                            moneyCounter2 += 10
+                        }
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun CreateCircle(moneyCounter: Int = 0, updateMoneyCounter: (Int) -> Unit) {
+fun ShowMoney(money: Int) {
+    Text(
+        text = "$${money}",
+        style = TextStyle(
+            color = Color.White, fontSize = 35.sp, fontWeight = FontWeight.ExtraBold
+        )
+    )
+}
+
+@Composable
+fun CreateCircle(name: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(3.dp)
             .size(105.dp)
             .clickable {
-                updateMoneyCounter(moneyCounter + 1)
-            },
-        shape = CircleShape,
-        elevation = 4.dp
+                onClick()
+            }, shape = CircleShape, elevation = 4.dp
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(text = "Tap", modifier = Modifier)
+            Text(text = name, modifier = Modifier)
         }
     }
 }
