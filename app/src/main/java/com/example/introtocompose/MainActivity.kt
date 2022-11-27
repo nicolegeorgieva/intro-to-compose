@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    var moneyCounter = remember {
+    val moneyCounter = remember {
         mutableStateOf(0)
     }
 
@@ -57,8 +57,8 @@ fun MyApp() {
                 )
             )
             Spacer(modifier = Modifier.height(130.dp))
-            CreateCircle(moneyCounter = moneyCounter.value) {
-                moneyCounter.value = it + 1
+            CreateCircle(moneyCounter = moneyCounter.value) { newValue ->
+                moneyCounter.value = newValue
             }
         }
     }
@@ -71,7 +71,7 @@ fun CreateCircle(moneyCounter: Int = 0, updateMoneyCounter: (Int) -> Unit) {
             .padding(3.dp)
             .size(105.dp)
             .clickable {
-                updateMoneyCounter(moneyCounter)
+                updateMoneyCounter(moneyCounter + 1)
             },
         shape = CircleShape,
         elevation = 4.dp
